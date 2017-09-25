@@ -20,6 +20,7 @@ from otp.distributed import DistributedDirectory/AI
 from otp.distributed import DistributedTestObject/AI
 from otp.snapshot import SnapshotDispatcher/AI/UD
 from otp.snapshot import SnapshotRenderer/AI/UD
+from otp.uberdog import OtpAvatarManager/AI/UD
 from otp.uberdog import DistributedChatManager/AI/UD
 from otp.uberdog import SpeedchatRelay/UD
 from otp.distributed import CentralLogger/AI/UD
