@@ -214,8 +214,8 @@ class TTServerRepository(ServerRepository):
             datagram.addUint8(0)
             self.cw.send(datagram, connection)
         elif msgType == CLIENT_SET_AVATAR:
-                #TODO
-                self.cw.send(datagram, connection)
+            datagram = PyDatagram()
+            self.cw.send(datagram, connection)
 
                
         elif msgType == CLIENT_SET_WISHNAME:
