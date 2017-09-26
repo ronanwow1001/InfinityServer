@@ -214,11 +214,578 @@ class TTServerRepository(ServerRepository):
             datagram.addUint8(0)
             self.cw.send(datagram, connection)
         elif msgType == CLIENT_SET_AVATAR:
-            datagram = PyDatagram()
-            self.cw.send(datagram, connection)
+                packer = DCPacker()
+                dclass = self.dclassesByName['DistributedToon']
+                datagram = PyDatagram()
+                datagram.addUint16(15) #CLIENT_GET_AVATAR_DETAILS_RESP Msgtype
+                datagram.addUint32(1)
+                datagram.addUint8(0)
+                datagram.addString('Infinity') #Toon name
+                datagram.addString('Unknown')
+                datagram.addUint32(0)
+                datagram.addBool(1)
+                datagram.addString('t\x05\x01\x00\x01\x39\x1b\x33\x1b\31\x1b\x14\x00\x14\x14') #DNA (blob)
+                datagram.addUint8(1) #GM
+                datagram.addUint16(2500) #Max Bank
+                datagram.addUint16(0) #Current Bank
+                datagram.addUint16(40) #Max Jellybeans
+                datagram.addUint16(0) #Current Jellybeans
+                datagram.addUint16(15) #Max Laff
+                datagram.addUint16(15) #Current Laff
+                datagram.addUint32(0) #Battle ID
+                datagram.addString('Unknown') #Experience (blob)
+                datagram.addUint8(10) #Max Gag Carry
+ 
+                #setTrackAccess
+ 
+                field = dclass.getField(13)
+                print field
+                arg = [0, 0, 0, 0, 1, 1, 0]
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addInt16(int(i))
+
+                datagram.addInt8(3) #Track Progress 1
+                datagram.addUint32(9) #Track Progress 2
+ 
+               
+ 
+                #setTrackBonusLevel
+ 
+                field = dclass.getField(15)
+                print field
+ 
+                arg = [0, 0, 0, 0, 1, 1, 0]
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addInt8(int(i))
+
+                datagram.addString('') #setInventory
+ 
+                #setMaxNPCFriends (Uint16)
+ 
+                datagram.addUint16(16)
+               
+ 
+                arg = []
+                datagram.addUint16(len(arg) * 5)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                datagram.addUint32(316000000) #setDefaultShard
+ 
+                datagram.addUint32(2000) #setDefaultZone
+ 
+                datagram.addString('')
+ 
+ 
+                field = dclass.getField(22)
+                print field
+ 
+                arg = [1000, 2000 , 3000, 4000, 5000, 6000, 8000, 9000, 10000, 11000, 12000, 13000]
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+
+                field = dclass.getField(23)
+                print field
+ 
+                arg = [1000, 2000 , 3000, 4000, 5000, 6000, 8000, 9000, 10000, 11000, 12000, 13000]
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                datagram.addString('') #setInterface
+ 
+                datagram.addUint32(2000) #setLastHood
+ 
+                datagram.addUint8(1) #setTutorialAck
+ 
+                datagram.addUint32(25) #setMaxClothes
+ 
+                #setClothesTopsList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+ 
+                #setClothesBottomsList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint32(0) #setMaxAccessories
+ 
+                #setHatList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setGlassessList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setBackpackList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setShoesList(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint8(0) #setHat 1
+                datagram.addUint8(0) #setHat 2
+                datagram.addUint8(0) #setHat 3
+ 
+                datagram.addUint8(0) #setGlasses 1
+                datagram.addUint8(0) #setGlasses 2
+                datagram.addUint8(0) #setGlasses 3
+ 
+                datagram.addUint8(0) #setBackpack 1
+                datagram.addUint8(0) #setBackpack 2
+                datagram.addUint8(0) #setBackpack 3
+ 
+                datagram.addUint8(0) #setShoes 1
+                datagram.addUint8(0) #setShoes 2
+                datagram.addUint8(0) #setShoes 3
+ 
+                datagram.addString('')
+ 
+                #setEmoteAccess(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setCustomMeeages(uint16array)
+ 
+                arg = []
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+                datagram.addString('') #setResistanceMessages
+ 
+                #setPetTrickPhrases(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint16(0) #setCatalogSchedule 1
+                datagram.addUint32(0) #setVatalogSchedule 2
+ 
+                datagram.addString('') #setCatalog 1
+                datagram.addString('') #setCatalog 2
+                datagram.addString('') #setCatalog 3
+ 
+                datagram.addString('') #setMailBoxContents
+ 
+                datagram.addString('') #SetDeliverySchedule
+ 
+                datagram.addString('') #setGiftSchedule
+ 
+                datagram.addString('') #setAwardMailboxContents
+ 
+                datagram.addString('') #setAwardSchedule
+ 
+                datagram.addUint8(0) #setAwardNotify
+ 
+                datagram.addUint8(0) #setCatalogNotify 1
+ 
+                datagram.addUint8(0) #setCatalogNotify 2
+ 
+                datagram.addUint8(0) #setSpeedChatStyleIndex
+ 
+                #setTeleportAccess (uint32array)
+ 
+                arg = [1000, 2000 , 3000, 4000, 5000, 6000, 8000, 9000, 10000, 11000, 12000, 13000]
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                #setCogStatus (uint32array)
+                arg = []
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                #setCogCount (uint32array)
+                arg = []
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                #setCogRadar(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setBuildingRadar(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setCogLevels(uint8array)
+ 
+                arg = [0, 0, 0, 0]
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setCogTypes(uint8array)
+ 
+                arg = [0, 0, 0, 0]
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setCogParts (uint32array)
+                arg = [0, 0, 0, 0]
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                #setCogMerits(uint16array)
+ 
+                arg = [0, 0, 0, 0]
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+                datagram.addUint32(0) #setHouseId
+ 
+                #setQuests (uint32array)
+                arg = []
+                datagram.addUint16(len(arg) << 2)
+                for i in arg:
+                    datagram.addUint32(int(i))
+ 
+                #setQuestHistory(uint16array)
+ 
+                arg = []
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+                datagram.addUint8(0) #setRewardHistory 1
+ 
+                #setRewardHistory 2(uint16array)
+ 
+                arg = []
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+ 
+                datagram.addUint8(1) #setQuestCarryLimit
+ 
+                datagram.addInt16(0) #setCheesyEffect 1
+                datagram.addUint32(0) #setCheesyEffect 2
+                datagram.addUint32(0) #setCheesyEffect 3
+ 
+                datagram.addUint8(0) #setPosIndex
+ 
+                #setFishCollection 1(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFishCollection 2(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFishCollection 3(uint16array)
+ 
+                arg = []
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+                datagram.addUint8(20) #setMaxFishTank
+ 
+                #setFishTank 1(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFishTank 2(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFishTank 3(uint16array)
+ 
+                arg = []
+                datagram.addUint16(len(arg) << 1)
+                for i in arg:
+                    datagram.addUint16(int(i))
+ 
+                datagram.addUint8(1) #setFishingRod
+ 
+                #setFishingTrophies(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFlowerCollection 1(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFlowerCollection 2(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFlowerBasket 1(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                #setFlowerBasket 2(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint8(25) #setMaxFlowerBasket
+ 
+                #setGardenTrophies(uint8array)
+ 
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint8(1) #setShovel
+ 
+                datagram.addUint32(0) #setShovelSkill
+ 
+                datagram.addUint8(1) #setWateringCan
+ 
+                datagram.addUint32(0) #setWateringCanSkill
+ 
+                datagram.addUint32(0) #setPetID
+ 
+                datagram.addUint8(0) #setPetTutorialDone
+ 
+                datagram.addUint8(0) #setFishBingoTutorialDone
+ 
+                datagram.addUint8(0) #setFishBingoMarkTutorialDone
+ 
+                datagram.addInt8(0) #setKartBodyType
+ 
+                datagram.addInt8(0) #setKartBodyColor
+ 
+                datagram.addInt8(0) #setKartAccessoryColor
+ 
+                datagram.addInt8(0) #setKartEngineBlockType
+ 
+                datagram.addInt8(0) #setKartSpoilerType
+ 
+                datagram.addInt8(0) #setKartFrontWheelWellType
+ 
+                datagram.addInt8(0) #setKartBackWheelWellType
+ 
+                datagram.addInt8(0) #setKartRimType
+ 
+                datagram.addInt8(0) #setKartDecalType
+ 
+                datagram.addUint32(100) #setTickets
+ 
+                datagram.addUint8(0) #setKartingHistory 1
+                datagram.addUint8(0) #setKartingHistory 2
+                datagram.addUint8(0) #setKartingHistory 3
+                datagram.addUint8(0) #setKartingHistory 4
+                datagram.addUint8(0) #setKartingHistory 5
+                datagram.addUint8(0) #setKartingHistory 6
+                datagram.addUint8(0) #setKartingHistory 7
+                datagram.addUint8(0) #setKartingHistory 8
+                datagram.addUint8(0) #setKartingHistory 9
+                datagram.addUint8(0) #setKartingHistory 10
+                datagram.addUint8(0) #setKartingHistory 11
+                datagram.addUint8(0) #setKartingHistory 12
+                datagram.addUint8(0) #setKartingHistory 13
+                datagram.addUint8(0) #setKartingHistory 14
+                datagram.addUint8(0) #setKartingHistory 15
+                datagram.addUint8(0) #setKartingHistory 16
+ 
+               
+                datagram.addUint8(0) #setKartingTrophies 1
+                datagram.addUint8(0) #setKartingTrophies 2
+                datagram.addUint8(0) #setKartingTrophies 3
+                datagram.addUint8(0) #setKartingTrophies 4
+                datagram.addUint8(0) #setKartingTrophies 5
+                datagram.addUint8(0) #setKartingTrophies 6
+                datagram.addUint8(0) #setKartingTrophies 7
+                datagram.addUint8(0) #setKartingTrophies 8
+                datagram.addUint8(0) #setKartingTrophies 9
+                datagram.addUint8(0) #setKartingTrophies 11
+                datagram.addUint8(0) #setKartingTrophies 11
+                datagram.addUint8(0) #setKartingTrophies 12
+                datagram.addUint8(0) #setKartingTrophies 13
+                datagram.addUint8(0) #setKartingTrophies 14
+                datagram.addUint8(0) #setKartingTrophies 15
+                datagram.addUint8(0) #setKartingTrophies 16
+                datagram.addUint8(0) #setKartingTrophies 17
+                datagram.addUint8(0) #setKartingTrophies 18
+                datagram.addUint8(0) #setKartingTrophies 19
+                datagram.addUint8(0) #setKartingTrophies 20
+                datagram.addUint8(0) #setKartingTrophies 21
+                datagram.addUint8(0) #setKartingTrophies 22
+                datagram.addUint8(0) #setKartingTrophies 23
+                datagram.addUint8(0) #setKartingTrophies 24
+                datagram.addUint8(0) #setKartingTrophies 25
+                datagram.addUint8(0) #setKartingTrophies 26
+                datagram.addUint8(0) #setKartingTrophies 27
+                datagram.addUint8(0) #setKartingTrophies 28
+                datagram.addUint8(0) #setKartingTrophies 29
+                datagram.addUint8(0) #setKartingTrophies 30
+                datagram.addUint8(0) #setKartingTrophies 31
+                datagram.addUint8(0) #setKartingTrophies 32
+                datagram.addUint8(0) #setKartingTrophies 33
+ 
+                datagram.addUint32(0) #setKartingPersonalBest 1
+                datagram.addUint32(0) #setKartingPersonalBest 2
+                datagram.addUint32(0) #setKartingPersonalBest 3
+                datagram.addUint32(0) #setKartingPersonalBest 4
+                datagram.addUint32(0) #setKartingPersonalBest 5
+                datagram.addUint32(0) #setKartingPersonalBest 6
+ 
+                datagram.addUint32(0) #setKartingPersonalBest2 1
+                datagram.addUint32(0) #setKartingPersonalBest2 2
+                datagram.addUint32(0) #setKartingPersonalBest2 3
+                datagram.addUint32(0) #setKartingPersonalBest2 4
+                datagram.addUint32(0) #setKartingPersonalBest2 5
+                datagram.addUint32(0) #setKartingPersonalBest2 6
+                datagram.addUint32(0) #setKartingPersonalBest2 7
+                datagram.addUint32(0) #setKartingPersonalBest2 8
+                datagram.addUint32(0) #setKartingPersonalBest2 9
+                datagram.addUint32(0) #setKartingPersonalBest2 10
+                datagram.addUint32(0) #setKartingPersonalBest2 11
+                datagram.addUint32(0) #setKartingPersonalBest2 12
+ 
+                #setKartAccessoriesOwned [16]
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+                datagram.addInt8(0)
+ 
+                #setCogSummonsEarned
+                arg = []
+                datagram.addUint16(len(arg))
+                for i in arg:
+                    datagram.addUint8(int(i))
+ 
+                datagram.addUint8(0) #setGardenStart
+ 
+                #setGolfHistory [18]
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+                datagram.addUint16(0)
+ 
+                #setPackedGolfHoleBest [18]
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+ 
+                #setGolfCourseBest
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+                datagram.addUint8(0)
+ 
+                datagram.addUint8(0) #setPinkSlips
+ 
+                datagram.addUint8(0) #setNametagStyle
+
+                self.cw.send(datagram, connection)
 
                
         elif msgType == CLIENT_SET_WISHNAME:
+            #print dgi
             avId = dgi.getUint16()
             unknown = dgi.getString()
             pendingName = dgi.getString()
